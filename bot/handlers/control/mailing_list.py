@@ -39,7 +39,10 @@ async def waited_mailing_content(
     sql_user = SQLUser(session)
     users = await sql_user.get_by_role(Role.USER)
     for user in users:
-        await m.copy_to(user.id)
+        try:
+            await m.copy_to(user.id)
+        except:
+            print(f"{user.id} заблокировал бота")
 
     administrators = await sql_user.get_by_role(Role.ADMINISTRATOR)
     for data_administrator in administrators:
